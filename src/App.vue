@@ -1,26 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <Marca />
+    <Header />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Header from './components/Header.vue'
+import Marca from './components/Marca.vue'
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: { Marca, Header }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@font-face {
+  font-family: 'padrao';
+  src: url(./fonts/KumbhSans-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'negrito';
+  src: url(./fonts/KumbhSans-Bold.ttf);
+}
+
+:root {
+  --cor-destaque: #04bf33;
+}
+
+body {
+  margin: 0;
+  background-color: #dddddd;
 }
 </style>
