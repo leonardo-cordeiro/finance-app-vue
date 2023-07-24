@@ -19,12 +19,21 @@
         <button>Lançar</button>
       </form>
     </div>
+
+    <div id="areaLancamentos">
+      <BlocoLancamento tipo="entrada" :lancamento="{ valor: 100, descricao: 'Venda de HQ', data: '2020-10-20' }" />
+      <BlocoLancamento tipo="saida" :lancamento="{ valor: 50, descricao: 'Mercado', data: '2020-10-18' }" />
+    </div>
   </div>
 </template>
 
 <script>
+import BlocoLancamento from './BlocoLancamento.vue'
 export default {
-  name: 'PainelLancamentos'
+  name: 'PainelLancamentos',
+  components: {
+    BlocoLancamento
+  }
 }
 </script>
 
@@ -37,7 +46,7 @@ export default {
 #formularioLancamento {
   background-color: white;
   border-radius: 20px;
-  padding: 20px;
+  padding: 30px;
   font-family: 'padrao';
 }
 
@@ -74,7 +83,7 @@ data {
 }
 
 #descricao {
-  width: 70%;
+  width: 40%;
 }
 
 button {
@@ -86,5 +95,9 @@ button {
   color: white;
   font-family: 'negrito';
   font-size: 110%;
+}
+
+#areaLancamentos {
+  margin-top: 30px;
 }
 </style>
