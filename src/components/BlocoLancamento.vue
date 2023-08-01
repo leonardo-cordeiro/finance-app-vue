@@ -1,7 +1,7 @@
 <template>
   <div class="blocoLancamento">
     <div class="botoes">
-      <button class="botaoRemover">
+      <button @click="excluirLancamento(lancamento.id)" class="botaoRemover">
         <img src="../img/lixeira.png" alt="remover lançamento" />
       </button>
 
@@ -11,7 +11,7 @@
     </div>
 
     <div class="descricaoLancamento">
-      <span v-if="tipo === 'entrada'" class="valor entrada"
+      <span :class="tipo === 'entrada' ? 'valor entrada' : 'valor gasto'"
         >R$
         {{
           lancamento.valor.toLocaleString(undefined, {
@@ -19,14 +19,7 @@
           })
         }}</span
       >
-      <span v-else-if="tipo === 'saida'" class="valor gasto"
-        >R$
-        {{
-          lancamento.valor.toLocaleString(undefined, {
-            minimumFractionDigits: 2
-          })
-        }}</span
-      >
+
       <span>{{ lancamento.descricao }}</span>
       <span>{{ new Date(lancamento.data).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) }}</span>
     </div>
@@ -34,12 +27,15 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'BlocoLancamento',
   props: {
     tipo: String,
     lancamento: Object
-  }
+  },
+  methods: mapActions(['excluirLancamento'])
 }
 </script>
 
@@ -85,7 +81,7 @@ export default {
 }
 
 .botaoEditar img:active {
-  filter: invert(40%);
+  filter: invert(60%);
 }
 
 .descricaoLancamento {

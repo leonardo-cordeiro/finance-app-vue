@@ -2,18 +2,34 @@
   <div id="painelResumo">
     <div class="resumoCaixa">
       <span class="titleResumo">Dinheiro em caixa</span>
-      <span class="caixa">R$ 0</span>
+      <span :class="dinheiroEmCaixa > 0 ? 'caixa entrada' : 'caixa gasto'">
+        R$
+        {{
+          dinheiroEmCaixa.toLocaleString(undefined, {
+            minimumFractionDigits: 2
+          })
+        }}
+      </span>
     </div>
 
-    <div class="grafico">
-      <canvas></canvas>
-    </div>
+    <GraficoComportamento />
   </div>
 </template>
 
 <script>
+import GraficoComportamento from './GraficoComportamento.vue'
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
-  name: 'PainelResumo'
+  name: 'PainelResumo',
+  computed: mapGetters(['dinheiroEmCaixa']),
+  methods: mapActions(['atualizarCaixa']),
+  components: {
+    GraficoComportamento
+  },
+  created() {
+    this.atualizarCaixa()
+  }
 }
 </script>
 

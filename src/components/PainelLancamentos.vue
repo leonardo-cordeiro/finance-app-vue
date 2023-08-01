@@ -1,38 +1,76 @@
 <template>
   <div id="painelLancamento">
     <div id="formularioLancamento">
-      <form>
+      <form @submit="salvar">
         <div id="tiposLancamento">
-          <input type="radio" name="tipo" id="entrada" />
+          <input type="radio" name="tipo" id="entrada" value="entrada" v-model="tipo" />
           <label for="entrada">Entrada</label>
-          <input type="radio" name="tipo" id="saida" />
+          <input type="radio" name="tipo" id="saida" value="saida" v-model="tipo" />
           <label for="saida">Saída</label>
         </div>
         <label for="valor">Valor</label>
-        <input type="number" name="valor" id="valor" />
+        <input type="number" min="0" step="0.01" name="valor" id="valor" required v-model.number="valor" />
 
         <label for="descricao">Descrição</label>
-        <input type="text" name="descricao" id="descricao" />
+        <input type="text" name="descricao" id="descricao" required v-model="descricao" />
 
         <label for="data">Data</label>
-        <input type="date" name="data" id="data" />
+        <input type="date" name="data" id="data" required v-model="data" />
         <button>Lançar</button>
       </form>
     </div>
 
     <div id="areaLancamentos">
-      <BlocoLancamento tipo="entrada" :lancamento="{ valor: 100, descricao: 'Venda de HQ', data: '2020-10-20' }" />
-      <BlocoLancamento tipo="saida" :lancamento="{ valor: 50, descricao: 'Mercado', data: '2020-10-18' }" />
+      <BlocoLancamento
+        v-for="lancamento in ultimosLancamentos"
+        :key="lancamento.id"
+        :tipo="lancamento.valor > 0 ? 'entrada' : 'saida'"
+        :lancamento="lancamento"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import BlocoLancamento from './BlocoLancamento.vue'
+import Lancamento from '../models/Lancamento'
+
 export default {
   name: 'PainelLancamentos',
+  data: () => {
+    return {
+      tipo: 'saida',
+      valor: undefined,
+      descricao: '',
+      data: ''
+    }
+  },
   components: {
     BlocoLancamento
+  },
+  computed: { ...mapGetters(['ultimosLancamentos']) },
+
+  methods: {
+    ...mapActions(['salvarLancamento', 'carregarLancamentos']),
+    salvar(event) {
+      event.preventDefault()
+      if (this.tipo === 'saida') {
+        this.valor *= -1
+      }
+      const lancamento = new Lancamento(this.valor, this.descricao, this.data)
+      this.salvarLancamento(lancamento)
+      this.limparFormulario()
+    },
+    limparFormulario() {
+      this.tipo = 'saida'
+      this.valor = undefined
+      this.descricao = ''
+      this.data = ''
+    }
+  },
+  created() {
+    this.carregarLancamentos()
   }
 }
 </script>
