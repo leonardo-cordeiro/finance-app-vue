@@ -68,8 +68,8 @@ span:hover {
 #menu {
   float: right;
   margin-right: 10px;
-  border: 1px solid black;
-  border-radius: 20%;
+  border: 1px solid rgb(113, 112, 112);
+  border-radius: 10%;
   background-image: linear-gradient(to right, #00b09b, #96c93d);
 }
 
@@ -107,8 +107,8 @@ span:hover {
     padding: 4px;
     margin-bottom: 5px;
     font-size: 60%;
-    border: 1px solid black;
-    border-radius: 20%;
+    border: 1px solid rgb(113, 112, 112);
+    border-radius: 10%;
     background-image: linear-gradient(to right, #00b09b, #96c93d);
   }
 }

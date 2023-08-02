@@ -35,23 +35,13 @@ export default {
     }
   },
 
-  watch: {
-    todosLancamentos: {
-      handler(todosLancamentos) {
-        this.loaded = false
-        this.renderizarGrafico(todosLancamentos)
-        this.loaded = true
-      },
-      immediate: true
-    }
-  },
-
   created() {
     // eslint-disable-next-line no-unused-vars
-    this.$store.subscribe((mutation, state) => {
+    this.$store.subscribe(async (mutation, state) => {
       if (mutation.type === 'calcularCaixa') {
         this.loaded = false
         this.renderizarGrafico()
+        await new Promise((resolve) => setTimeout(resolve, 150))
         this.loaded = true
       }
     })
@@ -86,13 +76,18 @@ export default {
 
 <style scoped>
 div {
-  width: 90% !important;
+  width: 100% !important;
+  margin: 0 auto;
+  padding-top: 3rem;
+  height: 20rem;
 }
 
 @media screen and (max-width: 700px) {
   div {
     width: 100%;
     margin: 0 auto;
+    height: 10rem;
+    padding-top: 1rem;
   }
 }
 </style>
