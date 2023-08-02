@@ -27,4 +27,14 @@ p {
   font-family: 'padrao';
   font-size: 120%;
 }
+
+@media screen and (max-width: 700px) {
+  div {
+    margin-top: 60px;
+    padding: 7% 0 0 20px;
+    height: 200px;
+    width: 100%;
+    display: none;
+  }
+}
 </style>

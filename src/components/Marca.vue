@@ -1,21 +1,39 @@
 <template>
-  <div>
-    <router-link to="/">
+  <div class="wrap">
+    <router-link v-if="showFinanceLink" @click="onClickShowHistoryLink" to="/">
       <img src="../img/logo.png" alt="logo" />
     </router-link>
-    <router-link to="/">
-      <span>FINANCE</span>
+    <router-link v-if="showFinanceLink" @click="onClickShowHistoryLink" to="/">
+      <span class="titulo">FINANCE</span>
     </router-link>
 
-    <div id="menu">
-      <router-link to="/historico"> Histórico de lançamentos</router-link>
+    <div id="menu" v-if="showMenu">
+      <router-link v-if="showHistoryLink" @click="hideHistoryLink" to="/historico" class="botao"> Histórico</router-link>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'marcaFinanceira'
+  name: 'marcaFinanceira',
+  data() {
+    return {
+      showFinanceLink: true,
+      showHistoryLink: true,
+      showMenu: true
+    }
+  },
+  methods: {
+    hideHistoryLink() {
+      this.showHistoryLink = false
+      this.showMenu = false
+    },
+
+    onClickShowHistoryLink() {
+      this.showHistoryLink = true
+      this.showMenu = true
+    }
+  }
 }
 </script>
 
@@ -44,10 +62,54 @@ a {
 
 a:hover,
 span:hover {
-  color: lightgreen;
+  color: rgb(170, 235, 170);
 }
 
 #menu {
   float: right;
+  margin-right: 10px;
+  border: 1px solid black;
+  border-radius: 20%;
+  background-image: linear-gradient(to right, #00b09b, #96c93d);
+}
+
+.botao {
+  color: #fff;
+}
+
+@media screen and (max-width: 700px) {
+  .wrap {
+    height: 60px;
+    padding: 20px 10px 0px 20px;
+    font-size: 150%;
+    max-width: 100%;
+    width: 100%;
+    background-image: linear-gradient(to right, #00b09b, #96c93d);
+  }
+
+  .titulo,
+  .botao {
+    color: #fff;
+  }
+
+  .botao {
+    display: flex;
+    justify-content: center;
+    margin-top: 7px;
+  }
+
+  .botao:active {
+    filter: invert(60%);
+  }
+
+  #menu {
+    height: 30px;
+    padding: 4px;
+    margin-bottom: 5px;
+    font-size: 60%;
+    border: 1px solid black;
+    border-radius: 20%;
+    background-image: linear-gradient(to right, #00b09b, #96c93d);
+  }
 }
 </style>

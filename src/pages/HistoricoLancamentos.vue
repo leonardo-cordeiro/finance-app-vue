@@ -46,4 +46,10 @@ h1 {
   font-family: 'negrito';
   color: var(--cor-destaque);
 }
+
+@media screen and (max-width: 700px) {
+  #containerHistorico {
+    width: 100%;
+  }
+}
 </style>

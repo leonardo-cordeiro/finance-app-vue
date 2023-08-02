@@ -30,10 +30,15 @@ export default {
 :root {
   --cor-destaque: #04bf33;
 }
+html {
+  max-width: 100%;
+}
 
 body {
   margin: 0;
+  padding: 0;
   background-color: #dddddd;
+  max-width: 100%;
 }
 
 .entrada {
@@ -42,5 +47,15 @@ body {
 
 .gasto {
   color: red;
+}
+
+@media screen and (max-width: 700px) {
+  div {
+    max-width: 100%;
+  }
+  #paineis {
+    display: block;
+    padding: 2%;
+  }
 }
 </style>

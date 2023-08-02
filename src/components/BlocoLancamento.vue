@@ -20,7 +20,7 @@
         }}</span
       >
 
-      <span>{{ lancamento.descricao }}</span>
+      <span class="descricao">{{ lancamento.descricao }}</span>
       <span>{{ new Date(lancamento.data).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) }}</span>
     </div>
   </div>
@@ -106,5 +106,14 @@ export default {
 
 .gasto {
   color: red;
+}
+
+@media screen and (max-width: 700px) {
+  .descricaoLancamento span {
+    display: block;
+    padding: 2px;
+    width: 100%;
+    font-size: 25px;
+  }
 }
 </style>

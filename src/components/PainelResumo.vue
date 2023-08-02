@@ -60,4 +60,22 @@ export default {
 .caixa {
   font-size: 400%;
 }
+
+@media screen and (max-width: 700px) {
+  #painelResumo {
+    width: 100%;
+    margin: 0 auto auto 10px;
+  }
+  .titleResumo {
+    /* width: 100%; */
+    text-align: center;
+    font-size: 150%;
+  }
+
+  .caixa {
+    font-size: 200%;
+    text-align: center;
+    padding: 10px;
+  }
+}
 </style>

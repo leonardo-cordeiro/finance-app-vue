@@ -1,24 +1,67 @@
 <template>
   <div>
-    <canvas id="grafico"></canvas>
+    <Line ref="chart" v-if="loaded" :options="options" :data="data" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Chart from 'chart.js/auto'
+import { Line } from 'vue-chartjs'
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 export default {
   name: 'GraficoComponente',
+  components: { Line },
   computed: mapGetters(['todosLancamentos']),
+
+  data: () => {
+    return {
+      loaded: false,
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Valor em caixa',
+            backgroundColor: '#f87979',
+            data: []
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    }
+  },
+
+  watch: {
+    todosLancamentos: {
+      handler(todosLancamentos) {
+        this.loaded = false
+        this.renderizarGrafico(todosLancamentos)
+        this.loaded = true
+      },
+      immediate: true
+    }
+  },
+
+  created() {
+    // eslint-disable-next-line no-unused-vars
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === 'calcularCaixa') {
+        this.loaded = false
+        this.renderizarGrafico()
+        this.loaded = true
+      }
+    })
+  },
+
   methods: {
     renderizarGrafico() {
-      const areaGrafico = document.getElementById('grafico')
-
-      if (areaGrafico) {
+      {
         let lancamentos = [...this.todosLancamentos]
         lancamentos.sort((a, b) => new Date(a.data) - new Date(b.data))
-
         let valorEmCaixa = 0
         let datas = []
         let valores = []
@@ -30,85 +73,26 @@ export default {
           valores.push(valorEmCaixa)
         })
 
-        const corCurva = valorEmCaixa > 0 ? 'green' : 'red'
-        const config = {
-          type: 'line',
-          data: {
-            labels: datas,
-            datasets: [
-              {
-                label: 'Valor em caixa',
-                borderColor: corCurva,
-                backgroundColor: corCurva,
-                data: valores,
-                fill: false
-              }
-            ]
-          },
-          options: this.opcoesGrafico
+        this.data.labels = datas
+        this.data.datasets[0].data = valores
+        if (this.$refs.chart && this.$refs.chart.chart) {
+          this.$refs.chart.chart.update()
         }
-        const contexto = areaGrafico.getContext('2d')
-        if (this.chart) {
-          this.chart.destroy()
-        }
-        this.chart = new Chart(contexto, config)
       }
     }
-  },
-  data: () => {
-    return {
-      opcoesGrafico: {
-        responsive: true,
-        title: {
-          display: true,
-          text: 'Dinheiro em caixa'
-        },
-        tooltips: {
-          mode: 'index',
-          intersect: false
-        },
-        hover: {
-          mode: 'nearest',
-          intersect: true
-        },
-        scales: {
-          xAxes: [
-            {
-              display: true,
-              scaleLabel: {
-                display: true,
-                labelString: 'Dias'
-              }
-            }
-          ],
-          yAxes: [
-            {
-              display: true,
-              scaleLabel: {
-                display: true,
-                labelString: 'Renda'
-              }
-            }
-          ]
-        }
-      },
-      chart: null
-    }
-  },
-
-  mounted() {
-    this.renderizarGrafico()
-  },
-
-  created() {
-    // eslint-disable-next-line no-unused-vars
-    this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'calcularCaixa') {
-        this.renderizarGrafico()
-      }
-    })
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+div {
+  width: 90% !important;
+}
+
+@media screen and (max-width: 700px) {
+  div {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+</style>

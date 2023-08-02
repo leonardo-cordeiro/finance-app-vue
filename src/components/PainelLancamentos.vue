@@ -138,4 +138,11 @@ button {
 #areaLancamentos {
   margin-top: 30px;
 }
+
+@media screen and (max-width: 700px) {
+  #painelLancamento {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
 </style>
