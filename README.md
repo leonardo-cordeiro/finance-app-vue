@@ -27,7 +27,6 @@ O Finance App Vue é uma aplicação que permite aos usuários registrarem suas 
 
 ## Imagens do Projeto
 
-![Alt Text imagem do projeto](URL src/img/Captura%20de%20Tela%202023-08-02%20às%2014.58.02.png)
 
 ## Contribuição
 
